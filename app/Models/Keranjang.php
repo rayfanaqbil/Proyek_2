@@ -13,12 +13,7 @@ class Keranjang extends Model
     protected $primaryKey = 'id_keranjang'; // Kolom primary key
 
     // Daftar kolom yang dapat diisi (sesuaikan dengan struktur tabel)
-    protected $fillable = [
-        'kode_customer',
-        'kode_produk',
-        'qty',
-        // ... tambahkan kolom lainnya sesuai kebutuhan
-    ];
+    protected $fillable = ['id_keranjang', 'kode_customer', 'kode_produk','qty'];
 
     // Relasi ke model Produk (asumsi nama model Produk adalah Produk)
     public function produk()

@@ -12,6 +12,6 @@ class VerifyCsrfToken extends Middleware
      * @var array<int, string>
      */
     protected $except = [
-        //
+        'keranjang/delete/1', // Ganti dengan ID yang sesuai
     ];
 }

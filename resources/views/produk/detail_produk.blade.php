@@ -6,12 +6,12 @@
     <div class="row">
         <div class="col-md-4">
             <div class="thumbnail">
-                <img src="Image/produk/{{ $produk->image }}" width="400">
+                <img src="{{ asset('Image/produk/' . $produk->image) }}" width="400">
             </div>
         </div>
 
         <div class="col-md-8">
-            <form action="{{ route('tambah-keranjang') }}" method="post">
+            <form action="{{ route('keranjang-update') }}" method="post">
                 @csrf
                 <input type="hidden" name="kd_cs" value="{{ auth()->guard('customer')->user()->kode_customer }}">
                 <input type="hidden" name="produk" value="{{ $produk->kode_produk }}">
@@ -37,9 +37,9 @@
                     </tbody>
                 </table>
                 @if(session('user'))
-                    <button type="submit" class="btn btn-success"><i class="glyphicon glyphicon-shopping-cart"></i> Tambahkan ke Keranjang</button>
+                    <button type="submit" class="btn btn-success"><i class="fa-solid fa-cart-shopping"></i> Tambahkan ke Keranjang</button>
                 @else
-                    <a href="{{ route('keranjang') }}" class="btn btn-success"><i class="glyphicon glyphicon-shopping-cart"></i> Tambahkan ke Keranjang</a>
+                    <a href="{{ route('keranjang') }}" class="btn btn-success"><i class="fa-solid fa-cart-shopping"></i> Tambahkan ke Keranjang</a>
                 @endif
                 <a href="{{ route('produk') }}" class="btn btn-warning"> Kembali Belanja</a>
             </form>

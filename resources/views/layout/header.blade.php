@@ -53,14 +53,17 @@
 					<li><a href="">Tentang Kami</a></li>
 					<li><a href="">Manual Aplikasi</a></li>
 					<ul class="nav navbar-nav navbar-right">
-						@guest('customer')
-							<li><a href="{{ route('keranjang') }}"><i class="fa-solid fa-cart-shopping"></i> [0]</a></li>
-						@else
-							@php
-								$jumlahProduk = \App\Models\Keranjang::where('kode_customer', auth('customer')->user()->kode_customer)->count();
-							@endphp
-							<li><a href="{{ route('keranjang') }}"><i class="fa-solid fa-cart-shopping"></i> <b>[ {{ $jumlahProduk }} ]</b></a></li>
-						@endguest
+
+				@if (auth()->guard('customer')->check())
+    					<li><a href="{{ route('keranjang') }}">
+							<i class="fa-solid fa-cart-shopping"></i> 
+							<b>[ {{ \App\Models\Keranjang::where('kode_customer', auth()->guard('customer')->user()->kode_customer)->count() }} ]</b>
+						</a></li>
+					@else
+						<li><a href="{{ route('keranjang') }}">
+							<i class="fa-solid fa-cart-shopping"></i> [0]
+						</a></li>
+					@endif
 
 					@guest('customer')
 					<li class="dropdown">

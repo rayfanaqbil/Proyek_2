@@ -2,71 +2,73 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\Keranjang;
 use App\Models\Produk;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class KeranjangController extends Controller
 {
-    public function keranjang()
+    public function index()
     {
-        // Ambil data keranjang untuk user yang sedang login
-        $keranjangItems = Keranjang::where('kode_customer', auth()->guard('customer')->user()->kode_customer)
-            ->with('produk')
-            ->get();
+        if (auth()->check()) {
+            $kode_cs = auth()->user()->kode_customer;
+            $jml = Keranjang::where('kode_customer', $kode_cs)->count();
 
-        return view('produk/keranjang', compact('keranjangItems'));
-    }
+            if ($jml > 0) {
+                $keranjangItems = Keranjang::where('kode_customer', $kode_cs)
+                    ->join('produk', 'keranjang.kode_produk', '=', 'produk.kode_produk')
+                    ->select('keranjang.id_keranjang as keranjang', 'keranjang.qty as jml', 'produk.image as gambar', 'produk.harga as hrg', 'produk.nama as nama')
+                    ->get();
 
-    public function tambahKeranjang(Request $request)
-    {
-        $hal = $request->input('hal');
-        $kodeCs = $request->input('kd_cs');
-        $kodeProduk = $request->input('produk');
+                $no = 1;
+                $hasil = 0;
 
-        $produk = Produk::where('kode_produk', $kodeProduk)->first();
-
-        $namaProduk = $produk->nama;
-        $kd = $produk->kode_produk;
-        $harga = $produk->harga;
-
-        if ($hal == 1) {
-            $keranjang = Keranjang::where('kode_produk', $kodeProduk)
-                ->where('kode_customer', $kodeCs)
-                ->first();
-
-            if ($keranjang) {
-                $set = $keranjang->qty + 1;
-                $keranjang->update(['qty' => $set]);
+                return view('produk/keranjang', compact('keranjangItems', 'no', 'hasil'));
             } else {
-                Keranjang::create([
-                    'kode_customer' => $kodeCs,
-                    'kode_produk' => $kd,
-                    'nama_produk' => $namaProduk,
-                    'qty' => 1,
-                    'harga' => $harga,
-                ]);
+                return view('produk/keranjang', ['kosong' => true]);
             }
         } else {
-            $qty = $request->input('jml');
-            $keranjang = Keranjang::where('kode_produk', $kodeProduk)
-                ->where('kode_customer', $kodeCs)
-                ->first();
-
-            if ($keranjang) {
-                $set = $keranjang->qty + $qty;
-                $keranjang->update(['qty' => $set]);
-            } else {
-                Keranjang::create([
-                    'kode_customer' => $kodeCs,
-                    'kode_produk' => $kd,
-                    'nama_produk' => $namaProduk,
-                    'qty' => $qty,
-                    'harga' => $harga,
-                ]);
-            }
+            return view('produk/keranjang', ['belumLogin' => true]);
         }
+    }
 
-        return redirect()->back()->with('success', 'Berhasil ditambahkan ke keranjang');
+    public function update(Request $request)
+    {
+        $id_keranjang = $request->input('id');
+        $qty = $request->input('qty');
+
+        Keranjang::where('id_keranjang', $id_keranjang)->update(['qty' => $qty]);
+
+        return redirect()->route('keranjang')->with('success', 'Keranjang berhasil diperbarui');
+    }
+
+        public function delete($id_keranjang)
+    {
+        try {
+            // Menambahkan pernyataan log untuk melihat nilai $id_keranjang
+            Log::info('Deleting item from keranjang. ID: ' . $id_keranjang);
+
+            // Pastikan bahwa nilai $id_keranjang ada sebelum mencoba menghapus
+            if (!$id_keranjang) {
+                throw new \Exception('ID Keranjang tidak valid.');
+            }
+
+            // Menghapus item dari tabel Keranjang
+            Keranjang::where('id_keranjang', $id_keranjang)->delete();
+
+            // Menambahkan pernyataan log setelah penghapusan
+            Log::info('Item deleted from keranjang. ID: ' . $id_keranjang);
+
+            // Mengalihkan kembali ke halaman keranjang dengan pesan sukses
+            return redirect()->route('keranjang')->with('success', 'Produk dihapus');
+        } catch (\Exception $e) {
+            // Menambahkan log jika terjadi kesalahan
+            Log::error('Error deleting item from keranjang: ' . $e->getMessage());
+
+            // Mengalihkan kembali ke halaman keranjang dengan pesan error
+            return redirect()->route('keranjang')->with('error', 'Terjadi kesalahan. Silakan coba lagi.');
+        }
     }
 }

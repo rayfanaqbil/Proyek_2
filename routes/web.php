@@ -6,6 +6,7 @@ use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\KeranjangController;
+use App\Http\Controllers\CheckoutController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -34,5 +35,12 @@ Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout')->middleware('auth:customer');
 
 //Keranjang
-Route::get('/keranjang', [KeranjangController::class, 'keranjang'])->name('keranjang');
-Route::post('/tambah-keranjang', [KeranjangController::class, 'tambahKeranjang'])->name('tambah-keranjang');
+Route::middleware('auth:customer')->group(function () {
+    Route::get('/keranjang', [KeranjangController::class, 'index'])->name('keranjang');
+    Route::post('/keranjang/update', [KeranjangController::class, 'update'])->name('keranjang-update');
+    Route::delete('/keranjang/delete/{id_keranjang}', [KeranjangController::class, 'delete'])->name('keranjang-delete');
+});
+
+//Checkout
+Route::get('/checkout/{kode_cs}', [CheckoutController::class, 'index'])->name('checkout');
+Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout-process');
