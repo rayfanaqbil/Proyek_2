@@ -7,3 +7,5 @@
 </div>
 <br>
 <br>
+
+@include('layout/footer')

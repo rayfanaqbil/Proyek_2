@@ -1,4 +1,4 @@
-@include ('header')
+@include ('layout/header')
 
 <div class="container">
     <h2 style="width: 100%; border-bottom: 4px solid #ff8680"><b>Detail produk</b></h2>
@@ -6,13 +6,14 @@
     <div class="row">
         <div class="col-md-4">
             <div class="thumbnail">
-                <img src="image/produk/{{ $produk->image }}" width="400">
+                <img src="Image/produk/{{ $produk->image }}" width="400">
             </div>
         </div>
 
         <div class="col-md-8">
-            <form action="{{ route('keranjang.tambah', ['produk' => $produk->kode_produk, 'kd_cs' => session('kd_cs'), 'hal' => 2]) }}" method="GET">
-                <input type="hidden" name="kd_cs" value="{{ $kode_cs }}">
+            <form action="{{ route('tambah-keranjang') }}" method="post">
+                @csrf
+                <input type="hidden" name="kd_cs" value="{{ auth()->guard('customer')->user()->kode_customer }}">
                 <input type="hidden" name="produk" value="{{ $produk->kode_produk }}">
                 <input type="hidden" name="hal" value="2">
                 <table class="table table-striped">
@@ -38,12 +39,12 @@
                 @if(session('user'))
                     <button type="submit" class="btn btn-success"><i class="glyphicon glyphicon-shopping-cart"></i> Tambahkan ke Keranjang</button>
                 @else
-                    <a href="{{ route('keranjang.index') }}" class="btn btn-success"><i class="glyphicon glyphicon-shopping-cart"></i> Tambahkan ke Keranjang</a>
+                    <a href="{{ route('keranjang') }}" class="btn btn-success"><i class="glyphicon glyphicon-shopping-cart"></i> Tambahkan ke Keranjang</a>
                 @endif
-                <a href="{{ route('produk.index') }}" class="btn btn-warning"> Kembali Belanja</a>
+                <a href="{{ route('produk') }}" class="btn btn-warning"> Kembali Belanja</a>
             </form>
         </div>
     </div>
 </div>
 
-@include ('footer')
+@include ('layout/footer')

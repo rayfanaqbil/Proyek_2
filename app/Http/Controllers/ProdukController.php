@@ -18,6 +18,6 @@ class ProdukController extends Controller
     {
         $produk = DB::table('produk')->where('kode_produk', $kode_produk)->first();
 
-        return view('produk/produk_detail', ['produk' => $produk]);
+        return view('produk/detail_produk', ['produk' => $produk]);
     }
 }

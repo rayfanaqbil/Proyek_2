@@ -9,6 +9,7 @@
 	<link rel="stylesheet"  href="{{ asset('css/bootstrap-theme.css') }}">
 	<script  src="{{  asset('js/jquery.js') }}"></script>
 	<script  src="{{  asset('js/bootstrap.min.js') }}"></script>
+	<link rel ="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
     <title>Laravel Toko Roti</title>
 </head>
 <body>
@@ -16,7 +17,7 @@
 		<div class="row top">
 			<center>
 				<div class="col-md-4" style="padding: 3px;">
-					<span> <i class="glyphicon glyphicon-earphone"></i> +6285884703267</span>
+					<span> <i class="fa-solid fa-phone"></i> +6285884703267</span>
 				</div>
 
 
@@ -51,21 +52,30 @@
 					<li><a href="{{ route('produk') }}">Produk</a></li>
 					<li><a href="">Tentang Kami</a></li>
 					<li><a href="">Manual Aplikasi</a></li>
+					<ul class="nav navbar-nav navbar-right">
+						@guest('customer')
+							<li><a href="{{ route('keranjang') }}"><i class="fa-solid fa-cart-shopping"></i> [0]</a></li>
+						@else
+							@php
+								$jumlahProduk = \App\Models\Keranjang::where('kode_customer', auth('customer')->user()->kode_customer)->count();
+							@endphp
+							<li><a href="{{ route('keranjang') }}"><i class="fa-solid fa-cart-shopping"></i> <b>[ {{ $jumlahProduk }} ]</b></a></li>
+						@endguest
 
 					@guest('customer')
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-							<i class="glyphicon glyphicon-user"></i> Akun <span class="caret"></span>
+							<i class="fas fa-user" style="margin-right: 5px;"></i> Akun <span class="caret"></span>
 						</a>
 						<ul class="dropdown-menu">
 							<li><a href="{{ route('login_form') }}">Login</a></li>
 							<li><a href="{{ route('register_form') }}">Register</a></li>
-						</ul>
+						</ul>	
 					</li>
 				@else
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-							<i class="glyphicon glyphicon-user"></i> {{ session('user') }} <span class="caret"></span>
+							<i class="fa-solid fa-user" style="margin-right: 5px;"></i> {{ session('user') }} <span class="caret"></span>
 						</a>
 						<ul class="dropdown-menu">
 							<li>

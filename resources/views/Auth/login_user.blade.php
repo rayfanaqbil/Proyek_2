@@ -18,3 +18,5 @@
         <a href="{{ route('register') }}" class="btn btn-primary">Daftar</a>
     </form>
 </div>
+
+@include('layout/footer')
