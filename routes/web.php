@@ -7,6 +7,8 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\KeranjangController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\AdminAuthController;
+use App\Http\Controllers\AdminController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -44,3 +46,10 @@ Route::middleware('auth:customer')->group(function () {
 //Checkout
 Route::get('/checkout/{kode_cs}', [CheckoutController::class, 'index'])->name('checkout');
 Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout-process');
+//admin
+Route::group(['prefix' => 'admin'], function () {
+    Route::get('/login', [AdminAuthController::class, 'showLoginForm'])->name('admin-login');
+    Route::post('/login', [AdminAuthController::class, 'login'])->name('login-admin');
+    Route::post('/logout', [AdminAuthController::class, 'logout']);
+    Route::get('/halaman-utama', [AdminController::class, 'halamanUtama'])->name('halaman-dashboard');
+});
