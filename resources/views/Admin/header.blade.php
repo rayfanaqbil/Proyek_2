@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap-theme.css') }}">
     <script src="{{ asset('js/jquery.js') }}"></script>
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <link rel ="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
 </head>
 <body>
 
@@ -26,23 +27,23 @@
                 <ul class="nav navbar-nav navbar-left">
 
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-folder-close"></i> Data Master <span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa-solid fa-folder"></i> Data Master <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="">Master Produk</a></li>
-                            <li><a href="">Master Customer</a></li>
+                            <li><a href="{{ route("produk-index") }}">Master Produk</a></li>
+                            <li><a href="{{ route("customer-index") }}">Master Customer</a></li>
                         </ul>
                     </li>
 
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-retweet"></i> Data Transaksi <span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa-solid fa-retweet"></i> Data Transaksi <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="">Produksi</a></li>
+                            <li><a href="{{ route("produksi-index") }}">Produksi</a></li>
                             <li><a href="">Inventory</a></li>
                         </ul>
                     </li>
 
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-stats"></i> Laporan <span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa-solid fa-chart-line"></i> Laporan <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="">Laporan Penjualan</a></li>
                             <li><a href="">Laporan Profit</a></li>
@@ -54,8 +55,15 @@
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right">
-                    <!-- tambahkan bagian kanan sesuai kebutuhan -->
-                </ul>
-            </div><!-- /.navbar-collapse -->
-        </div><!-- /.container-fluid -->
-    </nav>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user" style="margin-right: 5px;"></i> Admin <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ route('logout-admin') }}">Log Out</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+

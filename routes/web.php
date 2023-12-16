@@ -9,6 +9,9 @@ use App\Http\Controllers\KeranjangController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdminProdukController;
+use App\Http\Controllers\AdminCustomerController;
+use App\Http\Controllers\AdminProduksiController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -46,10 +49,36 @@ Route::middleware('auth:customer')->group(function () {
 //Checkout
 Route::get('/checkout/{kode_cs}', [CheckoutController::class, 'index'])->name('checkout');
 Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout-process');
+
+
 //admin
 Route::group(['prefix' => 'admin'], function () {
     Route::get('/login', [AdminAuthController::class, 'showLoginForm'])->name('admin-login');
     Route::post('/login', [AdminAuthController::class, 'login'])->name('login-admin');
-    Route::post('/logout', [AdminAuthController::class, 'logout']);
+    Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout-admin');
+    //Dashboadrd
     Route::get('/halaman-utama', [AdminController::class, 'halamanUtama'])->name('halaman-dashboard');
+    
+    //Master Produk
+    Route::prefix('produk')->group(function () {
+        Route::get('/', [AdminProdukController::class, 'index'])->name('produk-index');
+        Route::get('/create', [AdminProdukController::class, 'create'])->name('produk-create');
+        Route::post('/store', [AdminProdukController::class, 'store'])->name('produk-store');
+        Route::get('/edit/{kode}', [AdminProdukController::class, 'edit'])->name('produk-edit');
+        Route::post('/update/{kode}', [AdminProdukController::class, 'update'])->name('produk-update');
+        Route::get('/delete/{kode}', [AdminProdukController::class, 'delete'])->name('produk-delete');
+        Route::get('/bom/{kode}', [AdminProdukController::class, 'bom'])->name('produk-bom');
+    // Master Customer 
+        Route::prefix('admin')->group(function () {
+            Route::get('/customer', [AdminCustomerController::class, 'index'])->name('customer-index');
+            Route::get('/customer/{kode}/delete', [AdminCustomerController::class, 'destroy'])->name('customer-destroy');
+
+            Route::prefix('produksi')->group(function () {
+                Route::get('/', [AdminProduksiController::class, 'index'])->name('produksi-index');
+                Route::get('/terima/{invoice}/{kode_produk}', [AdminProduksiController::class, 'terima'])->name('produksi-terima');
+                Route::get('/tolak/{invoice}', [AdminProduksiController::class, 'tolak'])->name('produksi-tolak');
+                Route::get('/request-material-shortage', [AdminProduksiController::class, 'requestMaterialShortage'])->name('produksi-request-material-shortage');
+            });
+        });
+    });
 });
