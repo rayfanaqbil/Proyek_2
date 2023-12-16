@@ -1,4 +1,4 @@
-@extends('admin/header')
+@include('admin/header')
 
     <div class="container">
         <h2 style="width: 100%; border-bottom: 4px solid gray"><b>Daftar Pesanan</b></h2>
@@ -35,23 +35,23 @@
                         <td>2020/26-01</td>
                         <td>
                             @if ($row->tolak == 0 && $row->cek == 1 && $row->terima == 0)
-                                <a href="{{ route('inventory.request', ['cek' => 0]) }}" id="rq" class="btn btn-warning">
-                                    <i class="glyphicon glyphicon-warning-sign"></i> Request Material Shortage
+                                <a href="{{ route('inventory-index', ['cek' => 0]) }}" id="rq" class="btn btn-warning">
+                                    <i class="fa-solid fa-exclamation"></i> Request Material Shortage
                                 </a>
-                                <a href="{{ route('proses.tolak', ['inv' => $row->invoice]) }}" class="btn btn-danger"
+                                <a href="{{ route('produksi-tolak', ['inv' => $row->invoice]) }}" class="btn btn-danger"
                                     onclick="return confirm('Yakin Ingin Menolak ?')">
-                                    <i class="glyphicon glyphicon-remove-sign"></i> Tolak
+                                    <i class="fa-solid fa-xmark"></i> Tolak
                                 </a>
                             @elseif ($row->terima == 0 && $row->cek == 0)
-                                <a href="{{ route('proses.terima', ['inv' => $row->invoice, 'kdp' => $row->kode_produk]) }}"
-                                    class="btn btn-success"><i class="glyphicon glyphicon-ok-sign"></i> Terima</a>
-                                <a href="{{ route('proses.tolak', ['inv' => $row->invoice]) }}" class="btn btn-danger"
+                                <a href="{{ route('produksi-terima', ['inv' => $row->invoice, 'kdp' => $row->kode_produk]) }}"
+                                    class="btn btn-success"><i class="fa-solid fa-check"></i> Terima</a>
+                                <a href="{{ route('produksi-tolak', ['inv' => $row->invoice]) }}" class="btn btn-danger"
                                     onclick="return confirm('Yakin Ingin Menolak ?')">
-                                    <i class="glyphicon glyphicon-remove-sign"></i> Tolak
+                                    <i class="fa-solid fa-xmark"></i> Tolak
                                 </a>
                             @endif
-                            <a href="{{ route('detailorder', ['inv' => $row->invoice, 'cs' => $row->kode_customer]) }}"
-                                type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-eye-open"></i> Detail
+                            <a href="{{ route('produksi-detail-index', ['inv' => $row->invoice, 'cs' => $row->kode_customer]) }}"
+                                type="submit" class="btn btn-primary"><i class="fa-solid fa-eye"></i> Detail
                                 Pesanan</a>
                         </td>
                     </tr>

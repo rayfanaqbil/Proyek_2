@@ -12,6 +12,9 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminProdukController;
 use App\Http\Controllers\AdminCustomerController;
 use App\Http\Controllers\AdminProduksiController;
+use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\AdminDetailProduksiController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -82,3 +85,27 @@ Route::group(['prefix' => 'admin'], function () {
         });
     });
 });
+
+//Inventory
+    // Rute untuk menampilkan daftar inventaris
+    Route::get('/', [InventoryController::class, 'index'])->name('inventory-index');
+
+    // Rute untuk menampilkan formulir tambah inventaris
+    Route::get('/create', [InventoryController::class, 'create'])->name('inventory-create');
+
+    // Rute untuk menyimpan inventaris baru
+    Route::post('/', [InventoryController::class, 'store'])->name('inventory-store');
+
+    // Rute untuk menampilkan formulir edit inventaris
+    Route::get('/{kode}/edit', [InventoryController::class, 'edit'])->name('inventory-edit');
+
+    // Rute untuk menyimpan perubahan inventaris
+    Route::put('/{kode}', [InventoryController::class, 'update'])->name('inventory-update');
+
+    // Rute untuk menghapus inventaris
+    Route::delete('/{kode}', [InventoryController::class, 'destroy'])->name('inventory-destroy');
+
+//DetailProduksi
+Route::get('/produksi', [AdminDetailProduksiController::class, 'index'])->name('produksi-detail-index');
+Route::get('/produksi/tolak/{inv}', [AdminDetailProduksiController::class, 'tolakPesanan'])->name('produksi-tolak');
+Route::get('/produksi/terima/{inv}', [AdminDetailProduksiController::class, 'terimaPesanan'])->name('produksi-terima');

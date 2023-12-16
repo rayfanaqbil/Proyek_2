@@ -10,7 +10,7 @@ class InventoryController extends Controller
     public function index()
     {
         $inventory = DB::table('inventory')->orderBy('kode_bk', 'asc')->get();
-        return view('inventory.index', compact('inventory'));
+        return view('admin/inventory', compact('inventory'));
     }
 
     public function edit($kode)
@@ -24,7 +24,7 @@ class InventoryController extends Controller
         // Logika untuk update material
         // Implementasikan logika sesuai kebutuhan Anda
 
-        return redirect()->route('inventory.index')->with('success', 'Data material berhasil diperbarui.');
+        return redirect()->route('inventory-index')->with('success', 'Data material berhasil diperbarui.');
     }
 
     public function destroy($kode)
@@ -32,9 +32,9 @@ class InventoryController extends Controller
         $result = DB::table('inventory')->where('kode_bk', $kode)->delete();
 
         if ($result) {
-            return redirect()->route('inventory.index')->with('success', 'Data berhasil dihapus.');
+            return redirect()->route('inventory-index')->with('success', 'Data berhasil dihapus.');
         } else {
-            return redirect()->route('inventory.index')->with('error', 'Gagal menghapus data.');
+            return redirect()->route('inventory-index')->with('error', 'Gagal menghapus data.');
         }
     }
 
@@ -48,6 +48,6 @@ class InventoryController extends Controller
         // Logika untuk menyimpan data material baru
         // Implementasikan logika sesuai kebutuhan Anda
 
-        return redirect()->route('inventory.index')->with('success', 'Material baru berhasil ditambahkan.');
+        return redirect()->route('inventory-index')->with('success', 'Material baru berhasil ditambahkan.');
     }
 }
