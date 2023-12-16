@@ -58,7 +58,7 @@ Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout
 Route::group(['prefix' => 'admin'], function () {
     Route::get('/login', [AdminAuthController::class, 'showLoginForm'])->name('admin-login');
     Route::post('/login', [AdminAuthController::class, 'login'])->name('login-admin');
-    Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout-admin');
+    Route::match(['get', 'post'], '/logout', [AdminAuthController::class, 'logout'])->name('logout-admin');
     //Dashboadrd
     Route::get('/halaman-utama', [AdminController::class, 'halamanUtama'])->name('halaman-dashboard');
     

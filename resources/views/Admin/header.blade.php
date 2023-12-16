@@ -38,7 +38,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa-solid fa-retweet"></i> Data Transaksi <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="{{ route("produksi-index") }}">Produksi</a></li>
-                            <li><a href="">Inventory</a></li>
+                            <li><a href="{{ route("inventory-index") }}">Inventory</a></li>
                         </ul>
                     </li>
 
@@ -55,15 +55,25 @@
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user" style="margin-right: 5px;"></i> Admin <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="{{ route('logout-admin') }}">Log Out</a></li>
-                    </ul>
-                </li>
-
-            </ul>
-        </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-</nav>
-
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-user" style="margin-right: 5px;"></i> Admin <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="{{ route('logout-admin') }}"
+                                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                   Log Out
+                                </a>
+                                <form id="logout-form" action="{{ route('logout-admin') }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>   
+</body>
+</html>

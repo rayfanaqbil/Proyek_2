@@ -1,4 +1,4 @@
-@extends('admin/header')
+@include('admin/header')
 
     <div class="container">
         <h2 style="width: 100%; border-bottom: 4px solid gray"><b>Inventory Material</b></h2>
@@ -25,20 +25,18 @@
                         <td>{{ number_format($row->harga) . '/' . $row->satuan }}</td>
                         <td>
                             <a href="{{ route('inventory-edit', ['kode' => $row->kode_bk]) }}"
-                                class="btn btn-warning"><i class="glyphicon glyphicon-edit"></i> </a>
+                                class="btn btn-warning"><i class="fa-solid fa-pen-to-square"></i> </a>
                             <form action="{{ route('inventory-destroy', ['kode' => $row->kode_bk]) }}" method="POST"
                                 style="display: inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger"
-                                    onclick="return confirm('Yakin Ingin Menghapus Data ?')"><i
-                                        class="glyphicon glyphicon-trash"></i> </button>
+                                    onclick="return confirm('Yakin Ingin Menghapus Data ?')"><i class="fa-solid fa-trash"></i> </button>
                             </form>
                         </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
-        <a href="{{ route('inventory-create') }}" class="btn btn-success"><i
-                class="glyphicon glyphicon-plus-sign"></i> Tambah Material</a>
+        <a href="{{ route('inventory-create') }}" class="btn btn-success"><i class="fa-solid fa-plus"></i> Tambah Material</a>
     </div>

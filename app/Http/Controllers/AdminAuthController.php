@@ -27,12 +27,16 @@ class AdminAuthController extends Controller
 
     public function logout()
     {
-        Auth::logout();
-        return redirect('/admin/index');
+        // Pastikan sesuai dengan cara Anda menyimpan status login
+        if (auth()->guard('admin')->check()) {
+            auth()->guard('admin')->logout();
+        }
+
+        return redirect('admin/login');
     }
 
     public function __construct()
     {
-    $this->middleware('auth')->except(['showLoginForm', 'login']);
+    $this->middleware('auth')->except(['showLoginForm', 'login', 'logout']);
     }
 }
